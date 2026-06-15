@@ -21,6 +21,16 @@ def _run(command: list[str]) -> None:
     subprocess.run(command, check=True)
 
 
+def _resolve_port() -> str:
+    explicit = os.getenv("PORT")
+    if explicit:
+        return explicit
+    # Render inyecta PORT; si no está, usa 10000 en producción (default de Render)
+    if os.getenv("APP_ENV", "").lower() == "production":
+        return "10000"
+    return "8000"
+
+
 def main() -> None:
     wait_for_database()
     init_db()
@@ -56,8 +66,8 @@ def main() -> None:
             ]
         )
 
-    port = os.getenv("PORT", "8000")
-    print(f"Iniciando Uvicorn en 0.0.0.0:{port}")
+    port = _resolve_port()
+    print(f"Iniciando Uvicorn en 0.0.0.0:{port} (PORT env={os.getenv('PORT', 'no definido')})")
 
     os.execvp(
         "uvicorn",
