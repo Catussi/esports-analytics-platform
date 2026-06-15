@@ -18,6 +18,9 @@ RUN pip install -r requirements.txt
 COPY backend/ .
 COPY CSGO.csv /data/CSGO.csv
 
-EXPOSE 8000
+# Entrenar modelo en build (no bloquea el arranque en Render)
+RUN python -m scripts.train_model \
+    --csv-path /data/CSGO.csv \
+    --output app/ml/models/kmeans_pca_model.joblib
 
 ENTRYPOINT ["python", "-m", "scripts.docker_entrypoint"]
