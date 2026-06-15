@@ -1,0 +1,51 @@
+# Environment & secrets
+.env
+.env.local
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Pytest & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node / Angular
+node_modules/
+frontend/dist/
+frontend/.angular/cache/
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# ML artifacts (regenerar con: python -m scripts.train_model)
+backend/app/ml/models/*.joblib
+
+# Datasets redundantes / pesados
+CSGO.zip
+
+# Logs
+*.log
+npm-debug.log*

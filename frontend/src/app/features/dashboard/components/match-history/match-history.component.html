@@ -1,0 +1,61 @@
+<section class="panel">
+  <header class="flex items-center justify-between border-b border-border px-3 py-2">
+    <div>
+      <h2 class="text-xs font-semibold uppercase tracking-[0.2em] text-text">Match History</h2>
+      <p class="font-mono text-2xs text-text-dim">
+        @if (playerLabel) {
+          {{ playerLabel }} · {{ total }} partidas
+        } @else {
+          Selecciona un jugador
+        }
+      </p>
+    </div>
+  </header>
+
+  @if (loading) {
+    <p class="px-3 py-4 font-mono text-2xs text-text-muted">Cargando estadísticas...</p>
+  } @else if (!stats.length) {
+    <p class="px-3 py-4 font-mono text-2xs text-text-dim">Sin registros para mostrar.</p>
+  } @else {
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Map</th>
+            <th>Side</th>
+            <th>K</th>
+            <th>D</th>
+            <th>A</th>
+            <th>HS</th>
+            <th>ADR</th>
+            <th>KAST</th>
+            <th>RTG</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of stats; track row.id) {
+            <tr>
+              <td>{{ row.map_name }}</td>
+              <td>
+                <span
+                  class="text-2xs uppercase"
+                  [class.text-tside]="row.team_side === 'Terrorist'"
+                  [class.text-ct]="row.team_side === 'Counter-Terrorist'"
+                >
+                  {{ row.team_side === 'Terrorist' ? 'T' : row.team_side === 'Counter-Terrorist' ? 'CT' : '—' }}
+                </span>
+              </td>
+              <td class="text-positive">{{ row.kills }}</td>
+              <td class="text-negative">{{ row.deaths }}</td>
+              <td>{{ row.assists }}</td>
+              <td>{{ row.headshots }}</td>
+              <td>{{ row.adr | number: '1.1-1' }}</td>
+              <td>{{ row.kast | number: '1.1-1' }}%</td>
+              <td class="text-accent">{{ row.rating | number: '1.2-2' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

@@ -1,0 +1,55 @@
+<div class="flex min-h-full flex-col">
+  <header class="border-b border-border bg-surface-panel px-4 py-3">
+    <div class="mx-auto flex max-w-[1400px] items-center justify-between">
+      <div>
+        <p class="font-sans text-2xs uppercase tracking-[0.35em] text-text-dim">CS:GO Performance</p>
+        <h1 class="text-lg font-semibold uppercase tracking-wide text-text">eSports Analytics</h1>
+      </div>
+      <div class="flex items-center gap-2 font-mono text-2xs">
+        <span
+          class="inline-block h-2 w-2 rounded-sm"
+          [class.bg-positive]="apiOnline()"
+          [class.bg-negative]="!apiOnline()"
+        ></span>
+        <span [class.text-positive]="apiOnline()" [class.text-negative]="!apiOnline()">
+          API {{ apiOnline() ? 'ONLINE' : 'OFFLINE' }}
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto flex w-full max-w-[1400px] flex-1 flex-col gap-3 p-4">
+    <div class="grid min-h-[420px] grid-cols-1 gap-3 lg:grid-cols-[1.4fr_1fr]">
+      <app-player-table
+        [players]="players()"
+        [total]="playersTotal()"
+        [page]="playersPage()"
+        [pageSize]="pageSize"
+        [selectedPlayerId]="selectedPlayer()?.id ?? null"
+        [loading]="playersLoading()"
+        (playerSelected)="onPlayerSelected($event)"
+        (pageChange)="onPlayersPageChange($event)"
+      />
+
+      <app-prediction-panel
+        [latestStats]="latestStats()"
+        [prediction]="prediction()"
+        [loading]="predictionLoading()"
+        [error]="predictionError()"
+        (predict)="onPredict($event)"
+      />
+    </div>
+
+    <app-performance-chart
+      [stats]="matchStats()"
+      [playerLabel]="selectedPlayerLabel()"
+    />
+
+    <app-match-history
+      [stats]="matchStats()"
+      [total]="matchStatsTotal()"
+      [playerLabel]="selectedPlayerLabel()"
+      [loading]="statsLoading()"
+    />
+  </main>
+</div>

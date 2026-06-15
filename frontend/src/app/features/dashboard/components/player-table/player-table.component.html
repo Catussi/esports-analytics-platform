@@ -1,0 +1,56 @@
+<section class="panel flex h-full flex-col">
+  <header class="flex items-center justify-between border-b border-border px-3 py-2">
+    <div>
+      <h2 class="text-xs font-semibold uppercase tracking-[0.2em] text-text">Roster</h2>
+      <p class="font-mono text-2xs text-text-dim">{{ total }} registros</p>
+    </div>
+  </header>
+
+  @if (loading) {
+    <p class="px-3 py-6 font-mono text-2xs text-text-muted">Cargando jugadores...</p>
+  } @else {
+    <div class="flex-1 overflow-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Steam</th>
+            <th>Nick</th>
+            <th>Team</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (player of players; track player.id) {
+            <tr
+              [class.selected]="player.id === selectedPlayerId"
+              (click)="selectPlayer(player)"
+            >
+              <td class="text-text-muted">{{ player.id }}</td>
+              <td class="text-accent">{{ player.steam_id.slice(-8) }}</td>
+              <td>{{ player.nickname || '—' }}</td>
+              <td class="text-text-muted">{{ player.team || '—' }}</td>
+              <td>
+                <span
+                  class="font-sans text-2xs uppercase"
+                  [class.text-positive]="player.is_active"
+                  [class.text-text-dim]="!player.is_active"
+                >
+                  {{ player.is_active ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <app-pagination
+      [page]="page"
+      [pageSize]="pageSize"
+      [total]="total"
+      [disabled]="loading"
+      (pageChange)="pageChange.emit($event)"
+    />
+  }
+</section>

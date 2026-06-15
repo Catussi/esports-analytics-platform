@@ -1,0 +1,33 @@
+# eSports Analytics Platform - local infrastructure
+name: esports-analytics-platform
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: esports-analytics-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: esports_analytics
+      MYSQL_USER: esports_user
+      MYSQL_PASSWORD: changeme
+    volumes:
+      - esports_mysql_data:/var/lib/mysql
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - -h
+        - localhost
+        - -uesports_user
+        - -pchangeme
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+volumes:
+  esports_mysql_data:

@@ -1,0 +1,75 @@
+<section class="panel flex h-full flex-col">
+  <header class="border-b border-border px-3 py-2">
+    <h2 class="text-xs font-semibold uppercase tracking-[0.2em] text-text">Cluster Inference</h2>
+    <p class="font-mono text-2xs text-text-dim">PCA + K-Means · 7 features</p>
+  </header>
+
+  <form class="space-y-3 p-3" [formGroup]="metricsForm" (ngSubmit)="submit()">
+    <div class="grid grid-cols-2 gap-2">
+      <label class="block">
+        <span class="field-label">Kills</span>
+        <input class="field-input" type="number" formControlName="kills" />
+      </label>
+      <label class="block">
+        <span class="field-label">Deaths</span>
+        <input class="field-input" type="number" formControlName="deaths" />
+      </label>
+      <label class="block">
+        <span class="field-label">Assists</span>
+        <input class="field-input" type="number" formControlName="assists" />
+      </label>
+      <label class="block">
+        <span class="field-label">Headshots</span>
+        <input class="field-input" type="number" formControlName="headshots" />
+      </label>
+      <label class="block">
+        <span class="field-label">ADR</span>
+        <input class="field-input" type="number" step="0.1" formControlName="adr" />
+      </label>
+      <label class="block">
+        <span class="field-label">KAST %</span>
+        <input class="field-input" type="number" step="0.1" formControlName="kast" />
+      </label>
+      <label class="col-span-2 block">
+        <span class="field-label">Rating</span>
+        <input class="field-input" type="number" step="0.01" formControlName="rating" />
+      </label>
+    </div>
+
+    <button class="btn-primary w-full" type="submit" [disabled]="loading || metricsForm.invalid">
+      {{ loading ? 'Inferiendo...' : 'Ejecutar predicción' }}
+    </button>
+  </form>
+
+  @if (error) {
+    <p class="mx-3 mb-3 border border-negative/40 bg-surface-raised px-2 py-1.5 font-mono text-2xs text-negative">
+      {{ error }}
+    </p>
+  }
+
+  @if (prediction) {
+    <div class="mt-auto border-t border-border p-3">
+      <div class="mb-2 flex items-baseline justify-between">
+        <span class="font-sans text-2xs uppercase tracking-widest text-text-muted">Clúster</span>
+        <span class="font-mono text-2xs text-accent">#{{ prediction.cluster_id }}</span>
+      </div>
+      <h3 class="mb-1 text-sm font-semibold uppercase tracking-wide text-text">
+        {{ prediction.cluster_label }}
+      </h3>
+      <p class="mb-3 text-xs leading-relaxed text-text-muted">{{ prediction.analytical_feedback }}</p>
+
+      <div class="grid grid-cols-2 gap-2 font-mono text-2xs">
+        <div class="border border-border bg-surface px-2 py-1">
+          <span class="text-text-dim">Confianza</span>
+          <p class="text-positive">{{ prediction.confidence_score | number: '1.2-2' }}</p>
+        </div>
+        <div class="border border-border bg-surface px-2 py-1">
+          <span class="text-text-dim">PCA</span>
+          <p class="truncate text-text-muted" [title]="prediction.pca_components.join(', ')">
+            {{ prediction.pca_components.join(' · ') }}
+          </p>
+        </div>
+      </div>
+    </div>
+  }
+</section>
