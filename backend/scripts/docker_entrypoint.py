@@ -56,9 +56,12 @@ def main() -> None:
             ]
         )
 
+    port = os.getenv("PORT", "8000")
+    print(f"Iniciando Uvicorn en 0.0.0.0:{port}")
+
     os.execvp(
         "uvicorn",
-        ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"],
+        ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", port],
     )
 
 

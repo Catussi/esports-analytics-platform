@@ -1,4 +1,6 @@
 from functools import lru_cache
+import ssl
+from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -20,6 +22,8 @@ class Settings(BaseSettings):
     mysql_user: str = "esports_user"
     mysql_password: str = "changeme"
     mysql_database: str = "esports_analytics"
+    mysql_ssl: bool = False
+    mysql_ssl_ca: str = ""
 
     sqlalchemy_echo: bool = False
     sqlalchemy_pool_size: int = 5
@@ -38,6 +42,20 @@ class Settings(BaseSettings):
     @property
     def cors_origin_list(self) -> list[str]:
         return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+
+    def mysql_connect_args(self) -> dict:
+        if not self.mysql_ssl:
+            return {}
+
+        ca_path = self.mysql_ssl_ca.strip()
+        if ca_path and Path(ca_path).is_file():
+            ssl_context = ssl.create_default_context(cafile=ca_path)
+        else:
+            ssl_context = ssl.create_default_context()
+            ssl_context.check_hostname = False
+            ssl_context.verify_mode = ssl.CERT_NONE
+
+        return {"ssl": ssl_context}
 
 
 @lru_cache

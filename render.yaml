@@ -21,6 +21,8 @@ services:
         sync: false
       - key: MYSQL_DATABASE
         sync: false
+      - key: MYSQL_SSL
+        value: "true"
       - key: ML_MODEL_PATH
         value: app/ml/models/kmeans_pca_model.joblib
       - key: CSV_PATH

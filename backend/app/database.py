@@ -13,6 +13,7 @@ engine = create_engine(
     pool_pre_ping=True,
     pool_size=settings.sqlalchemy_pool_size,
     max_overflow=settings.sqlalchemy_max_overflow,
+    connect_args=settings.mysql_connect_args(),
 )
 
 SessionLocal = sessionmaker(

@@ -15,6 +15,7 @@ RETRY_SECONDS = 2
 
 def wait_for_database() -> None:
     settings = get_settings()
+    connect_kwargs = settings.mysql_connect_args()
 
     for attempt in range(1, MAX_ATTEMPTS + 1):
         try:
@@ -25,6 +26,7 @@ def wait_for_database() -> None:
                 password=settings.mysql_password,
                 database=settings.mysql_database,
                 connect_timeout=5,
+                **connect_kwargs,
             )
             connection.close()
             print(f"MySQL listo en {settings.mysql_host}:{settings.mysql_port}")

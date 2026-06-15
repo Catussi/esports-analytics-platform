@@ -38,6 +38,7 @@ services:
     ports:
       - "8000:8000"
     environment:
+      PORT: "8000"
       MYSQL_HOST: mysql
       MYSQL_PORT: 3306
       MYSQL_USER: esports_user
