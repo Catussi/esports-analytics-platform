@@ -33,7 +33,7 @@ Lista de seguimiento para llevar el proyecto de **funcional** a **listo para por
 ### Git
 - [x] Crear `.gitignore` raíz (`.env`, `node_modules`, `__pycache__`, `.pytest_cache`, `dist/`, etc.)
 - [x] Inicializar repositorio Git
-- [ ] Primer commit limpio (sin secretos ni artefactos generados)
+- [x] Primer commit limpio (sin secretos ni artefactos generados)
 - [ ] Crear repositorio remoto en GitHub
 - [ ] Push inicial a `main`
 
@@ -45,7 +45,7 @@ Lista de seguimiento para llevar el proyecto de **funcional** a **listo para por
 ### Calidad de código
 - [x] Verificar que `.env` no esté trackeado (solo `.env.example`)
 - [x] Revisar que `CSGO.zip` no suba al repo si pesa mucho (usar `.gitignore` o Git LFS)
-- [ ] Ejecutar suite completa local antes de cada push
+- [x] Ejecutar suite completa local antes de cada push
 
 ---
 
