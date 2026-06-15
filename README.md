@@ -15,7 +15,6 @@ Plataforma fullstack para analizar rendimiento de jugadores de CS:GO mediante cl
 ## Arquitectura
 
 ```
-proyecto portafolio/
 ├── backend/                 # API REST + ML
 │   ├── app/
 │   │   ├── routers/v1/      # Endpoints HTTP
