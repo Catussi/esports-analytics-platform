@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
-  apiBaseUrl: '/api/v1',
-  apiHealthUrl: '/api/health',
+  // Reemplaza con la URL de tu API en Render (sin barra final)
+  apiBaseUrl: 'https://TU-SERVICIO.onrender.com/api/v1',
+  apiHealthUrl: 'https://TU-SERVICIO.onrender.com/api/health',
 };

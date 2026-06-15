@@ -1,0 +1,24 @@
+# Git
+.git
+.github
+
+# Frontend
+frontend/
+node_modules/
+
+# Python caches & env
+**/__pycache__
+**/.pytest_cache
+**/.venv
+**/.env
+*.pyc
+
+# Archives & heavy artifacts
+CSGO.zip
+backend/app/ml/models/*.joblib
+
+# IDE / OS
+.idea
+.vscode
+Thumbs.db
+.DS_Store

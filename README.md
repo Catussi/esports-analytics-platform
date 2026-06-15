@@ -28,27 +28,56 @@ Plataforma fullstack para analizar rendimiento de jugadores de CS:GO mediante cl
 │       ├── core/            # Servicios + modelos TS
 │       ├── features/        # Dashboard
 │       └── shared/          # Componentes reutilizables
-├── docker-compose.yml       # MySQL local
+├── docker-compose.yml       # MySQL + API
+├── backend/Dockerfile       # Imagen FastAPI
 └── CSGO.csv                 # Dataset de entrenamiento/seed
 ```
 
 ## Requisitos previos
 
-- Python 3.11+
-- Node.js 20+
-- Docker Desktop
+- Docker Desktop (recomendado para backend + DB)
+- Node.js 20+ (solo para el frontend)
+- Python 3.11+ (solo para desarrollo local del backend)
 
-## Puesta en marcha (Windows)
-
-### 1. Base de datos
+## Puesta en marcha rápida (Docker — recomendado)
 
 Desde la raíz del proyecto:
 
 ```powershell
-docker compose up -d
+docker compose up --build -d
 ```
 
-### 2. Backend
+Esto levanta **MySQL + API** (`http://localhost:8000`). El contenedor `api` automáticamente:
+
+1. Espera a que MySQL esté healthy
+2. Crea las tablas (`init_db`)
+3. Entrena el modelo ML si no existe `.joblib`
+
+**Cargar datos de ejemplo** (primera vez):
+
+```powershell
+docker compose exec api python -m scripts.seed_csgo --csv-path /data/CSGO.csv --clear
+```
+
+**Frontend** (terminal aparte):
+
+```powershell
+cd frontend
+npm install
+npm start
+```
+
+- API: http://localhost:8000/api/docs
+- App: http://localhost:4200
+
+### Variables útiles del servicio `api`
+
+| Variable | Default | Descripción |
+|---|---|---|
+| `RUN_SEED` | `false` | Si `true`, ejecuta seed al arrancar |
+| `RUN_TRAIN_MODEL` | `true` | Entrena modelo si falta el `.joblib` |
+
+## Puesta en marcha manual (desarrollo local)
 
 ```powershell
 cd backend
@@ -107,6 +136,15 @@ En cada push/PR a `main`:
 - **Frontend CI** — `npm test` + `npm run build` en Node 20
 
 Workflows en `.github/workflows/`.
+
+## Deploy en producción
+
+Guía paso a paso: **[DEPLOY.md](DEPLOY.md)**
+
+Stack recomendado:
+- **Backend:** Render (Docker)
+- **Frontend:** Vercel (Angular)
+- **MySQL:** Railway / PlanetScale / proveedor gestionado
 
 ## Credenciales MySQL (Docker)
 

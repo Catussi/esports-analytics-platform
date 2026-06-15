@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     sqlalchemy_max_overflow: int = 10
 
     ml_model_path: str = "app/ml/models/kmeans_pca_model.joblib"
+    cors_origins: str = "http://localhost:4200,http://127.0.0.1:4200"
 
     @property
     def database_url(self) -> str:
@@ -33,6 +34,10 @@ class Settings(BaseSettings):
             f"mysql+pymysql://{self.mysql_user}:{self.mysql_password}"
             f"@{self.mysql_host}:{self.mysql_port}/{self.mysql_database}"
         )
+
+    @property
+    def cors_origin_list(self) -> list[str]:
+        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
 
 
 @lru_cache

@@ -1,6 +1,21 @@
-# Setup rápido — Windows (PowerShell)
+# Setup — Backend
 
-## 1. Variables de entorno
+## Opción A: Todo con Docker (recomendado)
+
+Desde la raíz del proyecto:
+
+```powershell
+docker compose up --build -d
+docker compose exec api python -m scripts.seed_csgo --csv-path /data/CSGO.csv --clear
+```
+
+- API: http://localhost:8000/api/health
+- Swagger: http://localhost:8000/api/docs
+- Logs: `docker compose logs -f api`
+
+## Opción B: Desarrollo local
+
+### 1. Variables de entorno
 
 Desde `backend/`:
 
